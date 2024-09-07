@@ -1,3 +1,3 @@
-deploy:
-    npm run build
-    firebase deploy
+deploy: 
+	npm run build 
+	firebase deploy
