@@ -5,7 +5,8 @@ describe("App", () => {
   it("タイトルがあること", () => {
     render(<App />);
 
-    const title = screen.getAllByTestId("title");
+    const title = screen.getByTestId("title");
     expect(title).toBeInTheDocument();
+    screen.debug();
   });
 });
