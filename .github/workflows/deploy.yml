@@ -71,6 +71,10 @@ jobs:
         shell: bash
         run: firebase deploy --only hosting
 
+      - name: Deploy Firebase hosting with debug
+        shell: bash
+        run: firebase deploy --only hosting --debug
+
       - name: Remove Credentials File
         if: success() || failure()
         run: rm firebase-key.json
