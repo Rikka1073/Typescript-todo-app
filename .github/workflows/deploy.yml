@@ -48,6 +48,9 @@ jobs:
       - name: Validate Firebase Key
         run: cat ./firebase-key.json
 
+      - name: Check dist directory contents
+        run: ls -la ./dist
+
       - name: Check firebase.json exists
         run: ls -la
 
