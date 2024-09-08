@@ -1,4 +1,4 @@
-name: Run Make Test
+name: React Firebase CICD
 on:
   push:
     branches: -main
