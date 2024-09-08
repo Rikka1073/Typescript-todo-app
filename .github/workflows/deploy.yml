@@ -52,6 +52,12 @@ jobs:
         shell: bash
         run: firebase deploy --only hosting
 
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: ./dist
+
       - name: Remove Credentials File
         if: success() || failure()
         run: rm firebase-key.json
