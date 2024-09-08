@@ -48,6 +48,9 @@ jobs:
       - name: Validate Firebase Key
         run: cat ./firebase-key.json
 
+      - name: Check firebase.json exists
+        run: ls -la
+
       - name: Deploy Firebase hosting
         shell: bash
         run: firebase deploy --only hosting
