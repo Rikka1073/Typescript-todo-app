@@ -29,12 +29,6 @@ jobs:
           name: build
           path: ./dist
 
-      - name: Upload node_modules
-        uses: actions/upload-artifact@v3
-        with:
-          name: node_modules
-          path: ./node_modules
-
   test:
     runs-on: ubuntu-latest
     needs: build
@@ -43,11 +37,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download node_modules
-        uses: actions/download-artifact@v3
-        with:
-          name: node_modules
-          path: ./node_modules
+      - name: Install Dependencies
+        run: npm install
 
       - name: Do Jest test
         run: npm run test
