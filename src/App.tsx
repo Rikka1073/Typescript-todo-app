@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <ChakraProvider>
-        <h1 data-testid="title">Hello World</h1>
+        <h1 data-testid="title">学習記録一覧</h1>
         <Button>ボタン</Button>
       </ChakraProvider>
     </>
