@@ -1,4 +1,4 @@
-import { Box, Button, Center, ChakraProvider, Flex, FormControl, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Center, ChakraProvider, FormControl, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
 import "./App.css";
 import { useState } from "react";
 
