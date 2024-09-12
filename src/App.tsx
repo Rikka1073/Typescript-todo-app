@@ -1,17 +1,17 @@
 import { Box, Button, Center, ChakraProvider, FormControl, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
 import "./App.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getAllTodos } from "./utils/supabaseFunction";
 
 const App = () => {
   const [studyText, setStudyText] = useState("");
   const [studyTime, setStudyTime] = useState("");
-  const [records, setRecords] = useState([]);
-  const onChangeText = (event) => {
+  const [records, setRecords] = useState<Todo[]>([]);
+  const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStudyText(event.target.value);
   };
 
-  const onChangeTime = (event) => {
+  const onChangeTime = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStudyTime(event.target.value);
   };
 
@@ -23,10 +23,11 @@ const App = () => {
 
   useEffect(() => {
     const getTodos = async () => {
-      const todo = await getAllTodos();
-      setRecords(todo);
+      const todosData = await getAllTodos();
+      setRecords(todosData);
     };
-  });
+    getTodos();
+  }, []);
 
   return (
     <>
