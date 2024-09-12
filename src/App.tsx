@@ -2,6 +2,7 @@ import { Box, Button, Center, ChakraProvider, FormControl, FormLabel, Heading, I
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { getAllTodos } from "./utils/supabaseFunction";
+import { Todo } from "./domain/todo";
 
 const App = () => {
   const [studyText, setStudyText] = useState("");
