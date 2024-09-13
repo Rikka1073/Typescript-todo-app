@@ -66,6 +66,16 @@ const App = () => {
           <Button onClick={onClickAddTodo} mt={2}>
             登録
           </Button>
+          <Box mt={10}>
+            {records.map((record) => {
+              return (
+                <Box key={record.id}>
+                  <Text>{record.title}</Text>
+                  <Text>{record.time}</Text>
+                </Box>
+              );
+            })}
+          </Box>
         </Box>
       </ChakraProvider>
     </>
