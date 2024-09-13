@@ -25,7 +25,11 @@ const App = () => {
   useEffect(() => {
     const getTodos = async () => {
       const todosData = await getAllTodos();
-      setRecords(todosData);
+      if (Array.isArray(todosData)) {
+        setRecords(todosData);
+      } else {
+        console.error("Error fetching todos");
+      }
     };
     getTodos();
   }, []);
