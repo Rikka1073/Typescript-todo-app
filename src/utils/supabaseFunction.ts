@@ -1,11 +1,15 @@
 import { Todo } from "../domain/todo";
 import { supabase } from "./supabase";
 
-export const getAllTodos = async (): Promise<Todo[]> => {
-  const todos = await supabase.from("study-record").select("*");
-  console.log(todos.data);
+export const getAllTodos = async () => {
+  const response = await supabase.from("study-record").select("*");
+  console.log(response.data);
 
-  const todosData = todos.data.map((todo) => {
+  if (response.error) {
+    return new Error("データの取得に失敗しました");
+  }
+
+  const todosData = response.data.map((todo) => {
     return new Todo(todo.id, todo.title, todo.time);
   });
 
