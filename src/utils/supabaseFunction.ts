@@ -8,8 +8,6 @@ export const getAllTodos = async () => {
     return new Error("Error fetching todos");
   }
 
-  console.log(response.data);
-
   const todosData = response.data.map((todo) => {
     return new Todo(todo.id, todo.title, todo.time);
   });
