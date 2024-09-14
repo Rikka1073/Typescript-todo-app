@@ -3,7 +3,7 @@ import { supabase } from "./supabase";
 
 export const getAllTodos = async () => {
   const response = await supabase.from("study-record").select("*");
-  console.log(response.data);
+  // console.log(response.data);
 
   if (response.error) {
     return new Error("データの取得に失敗しました");
