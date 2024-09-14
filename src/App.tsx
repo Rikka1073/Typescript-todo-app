@@ -8,6 +8,7 @@ const App = () => {
   const [studyText, setStudyText] = useState("");
   const [studyTime, setStudyTime] = useState("");
   const [records, setRecords] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStudyText(event.target.value);
   };
@@ -30,6 +31,7 @@ const App = () => {
       } else {
         console.error("Error fetching todos");
       }
+      setLoading(false);
     };
     getTodos();
   }, []);
@@ -73,10 +75,13 @@ const App = () => {
             </Button>
           </Center>
           <Box mt={10}>
+            <Center>
+              <Box>{loading ? <Text>読み込み中</Text> : <Text>読み込み完了</Text>}</Box>
+            </Center>
             {records.map((record) => {
               return (
                 <>
-                  <Box bg="white" p={10} mb={5} borderRadius="10" display="flex" justifyContent="space-between">
+                  <Box bg="white" p={10} mb={5} borderRadius="10" display="flex" justifyContent="space-between" mt={5}>
                     <Box key={record.id} display="flex">
                       <Text mr={5} display="flex" alignItems="center">
                         {record.title}
