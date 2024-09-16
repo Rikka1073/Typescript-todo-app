@@ -1,7 +1,7 @@
 import { Box, Button, Center, ChakraProvider, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-import "./App.css";
 import React, { useEffect, useState } from "react";
 import { createTodo, getAllTodos } from "./utils/supabaseFunction";
 import { Todo } from "./domain/todo";
@@ -13,9 +13,22 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({});
+
+  const onSubmit = (data: any) => {
+    console.log("フォームがサブミットされました", data); // 送信されたデータを表示
+    console.log("バリデーションエラー", errors); // エラーオブジェクトを確認
+  };
 
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setStudyText(event.target.value);
+    const value = event.target.value;
+    setStudyText(value);
+    setValue("study", value, { shouldValidate: true });
   };
 
   const onChangeTime = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +37,7 @@ const App = () => {
 
   const onClickAddTodo = () => {
     if (studyText === "" || studyTime <= 0) {
-      alert("入力してください");
+      console.log("入力してください");
     } else {
       console.log("クリックしました");
       const newRecord: Todo = { id: null, title: studyText, time: studyTime };
@@ -95,31 +108,28 @@ const App = () => {
               <ModalBody>
                 <Box>
                   <Box mt={10}>
-                    <FormControl display="flex">
-                      <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
-                        学習内容
-                      </FormLabel>
-                      <Input type="text" w="60%" ml={5} onChange={onChangeText} value={studyText} />
-                    </FormControl>
-                  </Box>
-                  <Box mt={10}>
-                    <FormControl display="flex">
-                      <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
-                        学習時間
-                      </FormLabel>
-                      <Input type="text" w="60%" ml={5} onChange={onChangeTime} value={studyTime} />
+                    <FormControl onSubmit={handleSubmit(onSubmit)}>
+                      <Box display="flex">
+                        <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
+                          学習内容
+                        </FormLabel>
+                        <Input type="text" {...register("study", { required: "内容の入力は必須です" })} placeholder="study" w="60%" ml={5} onChange={onChangeText} value={studyText} />
+                      </Box>
+                      <Text color="red.500" fontWeight="bold">
+                        {errors.study?.message as string}
+                      </Text>
+                      <Box display="flex" mt={10}>
+                        <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
+                          学習時間
+                        </FormLabel>
+                        <Input type="text" {...(register("sutdy"), { required: true })} w="60%" ml={5} onChange={onChangeTime} value={studyTime} />
+                      </Box>
                     </FormControl>
                   </Box>
                 </Box>
               </ModalBody>
               <ModalFooter>
-                <Button
-                  colorScheme="blue"
-                  onClick={() => {
-                    onClickAddTodo();
-                    onClose();
-                  }}
-                >
+                <Button type="submit" colorScheme="blue" onClick={onClickAddTodo}>
                   New Task
                 </Button>
               </ModalFooter>
