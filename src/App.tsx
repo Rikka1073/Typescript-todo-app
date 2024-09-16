@@ -35,6 +35,10 @@ const App = () => {
     setStudyTime(Number(event.target.value));
   };
 
+  const modalClose = () => {
+    console.log("モーダルが閉じられました");
+  };
+
   const onClickAddTodo = () => {
     if (studyText === "" || studyTime <= 0) {
       console.log("入力してください");
@@ -98,7 +102,13 @@ const App = () => {
               <AddIcon />
             </Button>
           </Box>
-          <Modal isOpen={isOpen} onClose={onClose}>
+          <Modal
+            isOpen={isOpen}
+            onClose={() => {
+              onClose();
+              modalClose();
+            }}
+          >
             <ModalOverlay />
             <ModalContent>
               <ModalHeader>
@@ -122,7 +132,7 @@ const App = () => {
                         <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
                           学習時間
                         </FormLabel>
-                        <Input type="text" {...(register("sutdy"), { required: true })} w="60%" ml={5} onChange={onChangeTime} value={studyTime} />
+                        <Input type="text" {...(register("time"), { required: true })} w="60%" ml={5} onChange={onChangeTime} value={studyTime} />
                       </Box>
                     </FormControl>
                   </Box>
