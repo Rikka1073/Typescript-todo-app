@@ -3,12 +3,12 @@ import { AddIcon } from "@chakra-ui/icons";
 
 import "./App.css";
 import React, { useEffect, useState } from "react";
-import { getAllTodos } from "./utils/supabaseFunction";
+import { createTodo, getAllTodos } from "./utils/supabaseFunction";
 import { Todo } from "./domain/todo";
 
 const App = () => {
   const [studyText, setStudyText] = useState("");
-  const [studyTime, setStudyTime] = useState("");
+  const [studyTime, setStudyTime] = useState(0);
   const [records, setRecords] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -19,14 +19,21 @@ const App = () => {
   };
 
   const onChangeTime = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setStudyTime(event.target.value);
+    setStudyTime(Number(event.target.value));
   };
 
   const onClickAddTodo = () => {
-    console.log("クリックしました");
-    const newRecord = { title: studyText, time: studyTime };
-    const newRecords = [...records, newRecord];
-    setRecords(newRecords);
+    if (studyText === "" || studyTime <= 0) {
+      alert("入力してください");
+    } else {
+      console.log("クリックしました");
+      const newRecord = { title: studyText, time: studyTime };
+      const newRecords = [...records, newRecord];
+      setRecords(newRecords);
+      console.log(newRecords);
+      createTodo(studyText, studyTime);
+      onClose();
+    }
   };
 
   useEffect(() => {
