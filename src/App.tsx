@@ -27,11 +27,13 @@ const App = () => {
       alert("入力してください");
     } else {
       console.log("クリックしました");
-      const newRecord = { title: studyText, time: studyTime };
+      const newRecord: Todo = { id: null, title: studyText, time: studyTime };
       const newRecords = [...records, newRecord];
       setRecords(newRecords);
       console.log(newRecords);
       createTodo(studyText, studyTime);
+      setStudyText("");
+      setStudyTime(0);
       onClose();
     }
   };
