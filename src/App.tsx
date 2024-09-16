@@ -45,49 +45,36 @@ const App = () => {
   return (
     <>
       <ChakraProvider>
-        <Box w="60%" m="auto" bg="gray.100" p={10}>
-          <Center>
-            <Heading as="h1" size="xl" data-testid="title" mt={10}>
-              学習記録一覧
-            </Heading>
-          </Center>
-          <Box mt={10} bg="white" pt={5} pb={5} borderRadius="10">
-            <Text ml={5}>入力されている学習内容 {studyText}</Text>
-          </Box>
-          <Box mt={5} bg="white" pt={5} pb={5} borderRadius="10">
-            <Text ml={5}>入力されている学習時間 {studyTime}時間</Text>
-          </Box>
-          <Center mt={10}>
-            <Button onClick={onOpen} colorScheme="purple" borderRadius="50%" size="lg">
-              <AddIcon />
-            </Button>
-          </Center>
-          <Box mt={10}>
+        <Box w={{ base: "100%", md: "60%" }} m="auto" bg="gray.100" p={10} position="relative" overflow="visible">
+          <Box>
             <Center>
-              <Heading as="h2" mt={10}>
+              <Heading as="h1" size="xl" data-testid="title">
                 Sutdy Records
               </Heading>
             </Center>
             <Center>
-              <Box>{loading ? <Text>読み込み中</Text> : <Text></Text>}</Box>
+              <Box mt={5}>{loading ? <Text>読み込み中</Text> : <Text></Text>}</Box>
             </Center>
             {records.map((record) => {
               return (
-                <>
-                  <Box bg="white" p={10} mb={5} borderRadius="10" display="flex" justifyContent="space-between" mt={5}>
-                    <Box key={record.id} display="flex">
-                      <Text mr={5} display="flex" alignItems="center">
-                        {record.title}
-                      </Text>
-                      <Text display="flex" alignItems="center">
-                        {record.time}時間
-                      </Text>
-                    </Box>
-                    <Button>削除</Button>
+                <Box key={record.id} bg="white" p={10} mb={5} borderRadius="10" display="flex" justifyContent="space-between" mt={5}>
+                  <Box display="flex">
+                    <Text mr={5} display="flex" alignItems="center">
+                      {record.title}
+                    </Text>
+                    <Text display="flex" alignItems="center">
+                      {record.time}時間
+                    </Text>
                   </Box>
-                </>
+                  <Button>削除</Button>
+                </Box>
               );
             })}
+          </Box>
+          <Box textAlign="right" position="sticky" right={0} bottom="20%">
+            <Button onClick={onOpen} colorScheme="purple" borderRadius="50%" size="lg" display="inline-block">
+              <AddIcon />
+            </Button>
           </Box>
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
