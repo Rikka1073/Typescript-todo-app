@@ -64,7 +64,7 @@ const App = () => {
           </Center>
           <Box mt={10}>
             <Center>
-              <Box>{loading ? <Text>読み込み中</Text> : <Text>読み込み完了</Text>}</Box>
+              <Box>{loading ? <Text>読み込み中</Text> : <Text></Text>}</Box>
             </Center>
             {records.map((record) => {
               return (
@@ -115,7 +115,13 @@ const App = () => {
                 <Button variant="ghost" mr={3} onClick={onClose}>
                   キャンセル
                 </Button>
-                <Button colorScheme="blue" onClick={onClickAddTodo}>
+                <Button
+                  colorScheme="blue"
+                  onClick={() => {
+                    onClickAddTodo();
+                    onClose();
+                  }}
+                >
                   登録
                 </Button>
               </ModalFooter>
