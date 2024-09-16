@@ -64,6 +64,11 @@ const App = () => {
           </Center>
           <Box mt={10}>
             <Center>
+              <Heading as="h2" mt={10}>
+                Sutdy Records
+              </Heading>
+            </Center>
+            <Center>
               <Box>{loading ? <Text>読み込み中</Text> : <Text></Text>}</Box>
             </Center>
             {records.map((record) => {
@@ -112,9 +117,6 @@ const App = () => {
                 </Box>
               </ModalBody>
               <ModalFooter>
-                <Button variant="ghost" mr={3} onClick={onClose}>
-                  キャンセル
-                </Button>
                 <Button
                   colorScheme="blue"
                   onClick={() => {
@@ -122,7 +124,7 @@ const App = () => {
                     onClose();
                   }}
                 >
-                  登録
+                  New Task
                 </Button>
               </ModalFooter>
             </ModalContent>
