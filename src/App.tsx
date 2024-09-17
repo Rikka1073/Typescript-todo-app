@@ -54,7 +54,7 @@ const App = () => {
       console.log("入力してください");
     } else {
       console.log("クリックしました");
-      const newRecord: Todo = { id: null, title: studyText, time: studyTime };
+      const newRecord: Todo = { id: "", title: studyText, time: studyTime };
       const newRecords = [...records, newRecord];
       setRecords(newRecords);
       console.log(newRecords);
