@@ -3,7 +3,7 @@ import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 
 import React, { useEffect, useState } from "react";
-import { createTodo, getAllTodos } from "./utils/supabaseFunction";
+import { createTodo, deleteTodo, getAllTodos } from "./utils/supabaseFunction";
 import { Todo } from "./domain/todo";
 
 const App = () => {
@@ -65,8 +65,12 @@ const App = () => {
     }
   };
 
-  const onClickDeleteTodo = () => {
+  const onClickDeleteTodo = async (id: string) => {
     console.log("削除しました");
+    console.log("削除するID:", id);
+    await deleteTodo(id);
+    const record = await getAllTodos();
+    setRecords(record as Todo[]);
   };
 
   useEffect(() => {
@@ -106,7 +110,16 @@ const App = () => {
                       {record.time}時間
                     </Text>
                   </Box>
-                  <Button onClick={onClickDeleteTodo} bg="gray.50" boxShadow="md" p="6" rounded="md" borderRadius="999px">
+                  <Button
+                    onClick={() => {
+                      onClickDeleteTodo(record.id);
+                    }}
+                    bg="gray.50"
+                    boxShadow="md"
+                    p="6"
+                    rounded="md"
+                    borderRadius="999px"
+                  >
                     <Text mr={3}>Delete</Text>
                     <DeleteIcon />
                   </Button>
