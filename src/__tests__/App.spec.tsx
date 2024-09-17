@@ -9,4 +9,11 @@ describe("App", () => {
     expect(title).toBeInTheDocument();
     screen.debug();
   });
+
+  it("ローディング中のタイトルがあること", () => {
+    render(<App />);
+    const title = screen.getByTestId("loading-title");
+    expect(title).toBeInTheDocument();
+    screen.debug();
+  });
 });
