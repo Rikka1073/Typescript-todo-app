@@ -97,7 +97,7 @@ const App = () => {
               </Heading>
             </Center>
             <Center>
-              <Box mt={5}>{loading ? <Text>読み込み中</Text> : <Text></Text>}</Box>
+              <Box mt={5}>{loading ? <Text data-testid="loading-title">読み込み中</Text> : <Text></Text>}</Box>
             </Center>
             {records.map((record) => {
               return (
