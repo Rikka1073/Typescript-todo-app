@@ -42,6 +42,8 @@ const App = () => {
 
   const onClickReset = () => {
     console.log("リセットしました");
+    setStudyTime(0);
+    setStudyText("");
   };
 
   const onClickAddTodo = () => {
