@@ -17,7 +17,6 @@ const App = () => {
     register,
     handleSubmit,
     setValue,
-    reset,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
 
@@ -43,7 +42,6 @@ const App = () => {
 
   const onClickReset = () => {
     console.log("リセットしました");
-    reset();
   };
 
   const onClickAddTodo = () => {
