@@ -128,7 +128,7 @@ const App = () => {
             })}
           </Box>
           <Box textAlign="right" position="sticky" right={0} bottom="20%">
-            <Button onClick={onOpen} bg="blue.500" borderRadius="50%" size="lg" display="inline-block">
+            <Button onClick={onOpen} bg="blue.500" borderRadius="50%" size="lg" display="inline-block" data-testid="create-button">
               <AddIcon color="white" />
             </Button>
           </Box>

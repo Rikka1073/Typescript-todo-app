@@ -16,4 +16,11 @@ describe("App", () => {
     expect(title).toBeInTheDocument();
     screen.debug();
   });
+
+  it("新規作成のボタンがあること", () => {
+    render(<App />);
+    const button = screen.getByTestId("create-button");
+    expect(button).toBeInTheDocument();
+    screen.debug();
+  });
 });
