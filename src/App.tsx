@@ -1,6 +1,6 @@
 import { Box, Button, Center, ChakraProvider, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import React, { useEffect, useState } from "react";
 import { createTodo, getAllTodos } from "./utils/supabaseFunction";
@@ -17,18 +17,19 @@ const App = () => {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
-  } = useForm({});
+  } = useForm({ mode: "onBlur" });
 
   const onSubmit = (data: any) => {
-    console.log("フォームがサブミットされました", data); // 送信されたデータを表示
-    console.log("バリデーションエラー", errors); // エラーオブジェクトを確認
+    console.log("フォームがサブミットされました", data);
+    console.log("バリデーションエラー", errors);
   };
 
   const onChangeText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setStudyText(value);
-    setValue("study", value, { shouldValidate: true });
+    setValue("study", value);
   };
 
   const onChangeTime = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +38,12 @@ const App = () => {
 
   const modalClose = () => {
     console.log("モーダルが閉じられました");
+    setStudyTime(0);
+    reset();
+  };
+
+  const onClickReset = () => {
+    console.log("リセットしました");
   };
 
   const onClickAddTodo = () => {
@@ -52,7 +59,12 @@ const App = () => {
       setStudyText("");
       setStudyTime(0);
       onClose();
+      reset();
     }
+  };
+
+  const onClickDeleteTodo = () => {
+    console.log("削除しました");
   };
 
   useEffect(() => {
@@ -132,7 +144,10 @@ const App = () => {
                         <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
                           学習時間
                         </FormLabel>
-                        <Input type="text" {...(register("time"), { required: true })} w="60%" ml={5} onChange={onChangeTime} value={studyTime} />
+                        <Input type="text" {...register("time", { required: "時間の入力は必須です" })} w="60%" ml={5} onChange={onChangeTime} value={studyTime} />
+                        <Text color="red.500" fontWeight="bold">
+                          {errors.time?.message as string}
+                        </Text>
                       </Box>
                     </FormControl>
                   </Box>
@@ -141,6 +156,9 @@ const App = () => {
               <ModalFooter>
                 <Button type="submit" colorScheme="blue" onClick={onClickAddTodo}>
                   New Task
+                </Button>
+                <Button type="submit" colorScheme="blue" onClick={onClickReset}>
+                  Reset
                 </Button>
               </ModalFooter>
             </ModalContent>
