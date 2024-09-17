@@ -39,11 +39,11 @@ const App = () => {
   const modalClose = () => {
     console.log("モーダルが閉じられました");
     setStudyTime(0);
-    reset();
   };
 
   const onClickReset = () => {
     console.log("リセットしました");
+    reset();
   };
 
   const onClickAddTodo = () => {
