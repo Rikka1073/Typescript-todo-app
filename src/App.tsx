@@ -39,6 +39,8 @@ const App = () => {
     console.log("モーダルが閉じられました");
     setStudyTime(0);
     setStudyText("");
+    setValue("study", "");
+    setValue("time", 0);
   };
 
   const onClickReset = () => {
@@ -60,7 +62,6 @@ const App = () => {
       setStudyText("");
       setStudyTime(0);
       onClose();
-      reset();
     }
   };
 
@@ -84,7 +85,7 @@ const App = () => {
   return (
     <>
       <ChakraProvider>
-        <Box w={{ base: "100%", md: "60%" }} m="auto" bg="gray.100" p={10} position="relative" overflow="visible">
+        <Box w={{ base: "100%", md: "60%" }} m="auto" bg="gray.50" p={10} position="relative" overflow="visible">
           <Box>
             <Center>
               <Heading as="h1" size="xl" data-testid="title">
@@ -96,7 +97,7 @@ const App = () => {
             </Center>
             {records.map((record) => {
               return (
-                <Box key={record.id} bg="white" p={10} mb={5} borderRadius="10" display="flex" justifyContent="space-between" mt={5}>
+                <Box key={record.id} bg="white" pt={5} pb={5} pr={3} pl={3} mb={5} borderRadius="10" display="flex" justifyContent="space-between" mt={5}>
                   <Box display="flex">
                     <Text mr={5} display="flex" alignItems="center">
                       {record.title}
@@ -105,13 +106,13 @@ const App = () => {
                       {record.time}時間
                     </Text>
                   </Box>
-                  <Button>削除</Button>
+                  <Button onClick={onClickDeleteTodo}>削除</Button>
                 </Box>
               );
             })}
           </Box>
           <Box textAlign="right" position="sticky" right={0} bottom="20%">
-            <Button onClick={onOpen} colorScheme="purple" borderRadius="50%" size="lg" display="inline-block">
+            <Button onClick={onOpen} colorScheme="blue" borderRadius="50%" size="lg" display="inline-block">
               <AddIcon />
             </Button>
           </Box>
@@ -155,11 +156,11 @@ const App = () => {
                 </Box>
               </ModalBody>
               <ModalFooter>
-                <Button type="submit" colorScheme="blue" onClick={onClickAddTodo}>
-                  New Task
+                <Button type="submit" bg="blue.300" onClick={onClickReset} mr={5}>
+                  <Text color="white">Reset</Text>
                 </Button>
-                <Button type="submit" colorScheme="blue" onClick={onClickReset}>
-                  Reset
+                <Button type="submit" bg="pink.300" onClick={onClickAddTodo}>
+                  <Text color="white">New Task</Text>
                 </Button>
               </ModalFooter>
             </ModalContent>
