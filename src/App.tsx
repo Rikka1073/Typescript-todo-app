@@ -1,5 +1,5 @@
 import { Box, Button, Center, ChakraProvider, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 
 import React, { useEffect, useState } from "react";
@@ -97,7 +97,7 @@ const App = () => {
             </Center>
             {records.map((record) => {
               return (
-                <Box key={record.id} bg="white" pt={5} pb={5} pr={3} pl={3} mb={5} borderRadius="10" display="flex" justifyContent="space-between" mt={5}>
+                <Box key={record.id} bg="white" pt={5} pb={5} pr={3} pl={3} mb={5} borderRadius="20px" display="flex" justifyContent="space-between" mt={5}>
                   <Box display="flex">
                     <Text mr={5} display="flex" alignItems="center">
                       {record.title}
@@ -106,14 +106,17 @@ const App = () => {
                       {record.time}時間
                     </Text>
                   </Box>
-                  <Button onClick={onClickDeleteTodo}>削除</Button>
+                  <Button onClick={onClickDeleteTodo} bg="gray.50" boxShadow="md" p="6" rounded="md" borderRadius="999px">
+                    <Text mr={3}>Delete</Text>
+                    <DeleteIcon />
+                  </Button>
                 </Box>
               );
             })}
           </Box>
           <Box textAlign="right" position="sticky" right={0} bottom="20%">
-            <Button onClick={onOpen} colorScheme="blue" borderRadius="50%" size="lg" display="inline-block">
-              <AddIcon />
+            <Button onClick={onOpen} bg="blue.500" borderRadius="50%" size="lg" display="inline-block">
+              <AddIcon color="white" />
             </Button>
           </Box>
           <Modal
@@ -156,10 +159,10 @@ const App = () => {
                 </Box>
               </ModalBody>
               <ModalFooter>
-                <Button type="submit" bg="blue.300" onClick={onClickReset} mr={5}>
+                <Button type="submit" bg="pink.300" onClick={onClickReset} mr={5} borderRadius="999px">
                   <Text color="white">Reset</Text>
                 </Button>
-                <Button type="submit" bg="pink.300" onClick={onClickAddTodo}>
+                <Button type="submit" bg="blue.300" onClick={onClickAddTodo} borderRadius="999px">
                   <Text color="white">New Task</Text>
                 </Button>
               </ModalFooter>
