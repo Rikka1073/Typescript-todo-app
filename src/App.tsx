@@ -101,7 +101,7 @@ const App = () => {
             </Center>
             {records.map((record) => {
               return (
-                <Box key={record.id} bg="white" pt={5} pb={5} pr={3} pl={3} mb={5} borderRadius="20px" display="flex" justifyContent="space-between" mt={5}>
+                <Box key={record.id} bg="white" pt={5} pb={5} pr={3} pl={3} mb={5} borderRadius="20px" display="flex" justifyContent="space-between" mt={5} data-testid="todos-data">
                   <Box display="flex">
                     <Text mr={5} display="flex" alignItems="center">
                       {record.title}
