@@ -93,7 +93,7 @@ const App = () => {
           <Box>
             <Center>
               <Heading as="h1" size="xl" data-testid="title">
-                Sutdy Records
+                Study Records
               </Heading>
             </Center>
             <Center>

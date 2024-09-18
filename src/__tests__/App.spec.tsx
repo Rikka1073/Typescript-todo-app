@@ -1,8 +1,12 @@
 import App from "../App";
 import { render, screen } from "@testing-library/react";
 import { Todo } from "../domain/todo";
+// import { getAllTodos } from "../utils/supabaseFunction";
 
 const mockGetAllTodos = jest.fn().mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4)]);
+jest.mock("../untiles/supabaseFunction", () => {
+  return { getAllTodos: mockGetAllTodos() };
+});
 
 describe("App", () => {
   it("タイトルがあること", () => {

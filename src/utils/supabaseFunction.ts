@@ -15,8 +15,8 @@ export const getAllTodos = async () => {
   return todosData;
 };
 
-export const createTodo = async (sutdyText: string, sutdyTime: number) => {
-  await supabase.from("study-record").insert({ title: sutdyText, time: sutdyTime }).select();
+export const createTodo = async (studyText: string, studyTime: number) => {
+  await supabase.from("study-record").insert({ title: studyText, time: studyTime }).select();
 };
 
 export const deleteTodo = async (id: string) => {
