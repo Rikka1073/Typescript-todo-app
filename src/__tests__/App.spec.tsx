@@ -1,11 +1,12 @@
 import App from "../App";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { Todo } from "../domain/todo";
 // import { getAllTodos } from "../utils/supabaseFunction";
 
 const mockGetAllTodos = jest.fn().mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4)]);
-jest.mock("../untiles/supabaseFunction", () => {
-  return { getAllTodos: mockGetAllTodos() };
+
+jest.mock("../utils/supabaseFunction", () => {
+  return { getAllTodos: () => mockGetAllTodos() };
 });
 
 describe("App", () => {
@@ -13,20 +14,33 @@ describe("App", () => {
     render(<App />);
     const title = screen.getByTestId("title");
     expect(title).toBeInTheDocument();
-    screen.debug();
   });
 
   it("ローディング中のタイトルがあること", () => {
     render(<App />);
     const title = screen.getByTestId("loading-title");
     expect(title).toBeInTheDocument();
-    screen.debug();
   });
 
   it("新規作成のボタンがあること", () => {
     render(<App />);
     const button = screen.getByTestId("create-button");
     expect(button).toBeInTheDocument();
-    screen.debug();
+  });
+
+  it("データが表示されること", async () => {
+    render(<App />);
+    await waitFor(() => {
+      screen.getAllByTestId("todos-data");
+      screen.debug();
+    });
+  });
+
+  it("登録できること", async () => {
+    render(<App />);
+    await waitFor(() => {
+      screen.getAllByTestId("todos-data");
+      screen.debug();
+    });
   });
 });
