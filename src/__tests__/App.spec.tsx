@@ -1,12 +1,8 @@
 import App from "../App";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Todo } from "../domain/todo";
-// import { getAllTodos } from "../utils/supabaseFunction";
 
-const mockGetAllTodos = jest
-  .fn()
-  .mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4)])
-  .mockReturnValueOnce([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4), new Todo("5", "test5", 5)]);
+const mockGetAllTodos = jest.fn().mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4)]);
 
 jest.mock("../utils/supabaseFunction", () => {
   return { getAllTodos: () => mockGetAllTodos() };
@@ -31,15 +27,17 @@ describe("App", () => {
     expect(button).toBeInTheDocument();
   });
 
-  it("データが表示されること", async () => {
+  it("データが4つ表示されること", async () => {
     render(<App />);
     await waitFor(() => {
-      screen.getAllByTestId("todos-data");
+      const todosData = screen.getAllByTestId("todos-data");
+      expect(todosData).toHaveLength(4);
       screen.debug();
     });
   });
 
   it("登録できること", async () => {
+    mockGetAllTodos.mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4), new Todo("5", "test5", 5)]);
     render(<App />);
 
     const button = screen.getByTestId("create-button");
@@ -47,7 +45,7 @@ describe("App", () => {
 
     await waitFor(() => {
       const todosData = screen.getAllByTestId("todos-data");
-      expect(todosData).toHaveLength(4);
+      expect(todosData).toHaveLength(5);
       screen.debug();
     });
   });
