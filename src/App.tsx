@@ -128,7 +128,7 @@ const App = () => {
             })}
           </Box>
           <Box textAlign="right" position="sticky" right={0} bottom="20%">
-            <Button onClick={onOpen} bg="blue.500" borderRadius="50%" size="lg" display="inline-block" data-testid="create-button">
+            <Button onClick={onOpen} bg="blue.500" borderRadius="50%" size="lg" display="inline-block" data-testid="modal-button">
               <AddIcon color="white" />
             </Button>
           </Box>
@@ -142,7 +142,7 @@ const App = () => {
             <ModalOverlay />
             <ModalContent mr={5} ml={5}>
               <ModalHeader>
-                <Center>Create New Task</Center>
+                <Center data-testid="modal-title">Create New Task</Center>
               </ModalHeader>
               <ModalCloseButton />
               <ModalBody>
