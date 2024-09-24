@@ -155,7 +155,7 @@ const App = () => {
                         </FormLabel>
                         <Input type="text" {...register("study", { required: "内容の入力は必須です" })} placeholder="study" w="60%" ml={5} onChange={onChangeText} value={studyText} />
                       </Box>
-                      <Text color="red.500" fontWeight="bold" mt={2}>
+                      <Text color="red.500" fontWeight="bold" mt={2} data-testid="errors-text">
                         {errors.study?.message as string}
                       </Text>
                       <Box display="flex" mt={10}>
