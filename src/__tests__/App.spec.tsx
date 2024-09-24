@@ -67,15 +67,17 @@ describe("App", () => {
     });
   });
 
-  it("モーダルのタイトルがあること", async () => {
+  it("学習内容がないときに登録するとエラーがでる", async () => {
+    mockGetAllTodos.mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4), new Todo("5", "test5", 5), new Todo("6", "", 0)]);
     render(<App />);
 
     const button = screen.getByTestId("modal-button");
     fireEvent.click(button);
 
     await waitFor(() => {
-      const modalTitle = screen.getByTestId("modal-title");
-      expect(modalTitle).toBeInTheDocument();
+      const errorText = screen.getByTestId("errors-text");
+      expect(errorText).toBeInTheDocument();
+      screen.debug();
     });
   });
 });
