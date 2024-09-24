@@ -119,6 +119,7 @@ const App = () => {
                     p="6"
                     rounded="md"
                     borderRadius="999px"
+                    data-testid="delete-button"
                   >
                     <Text mr={3}>Delete</Text>
                     <DeleteIcon />
