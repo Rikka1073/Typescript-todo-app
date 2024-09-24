@@ -1,6 +1,7 @@
 import App from "../App";
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Todo } from "../domain/todo";
+import { s } from "vite/dist/node/types.d-aGj9QkWt";
 
 const mockGetAllTodos = jest.fn().mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4)]);
 
@@ -49,9 +50,6 @@ describe("App", () => {
     await waitFor(() => {
       const createButton = screen.getByTestId("create-button");
       fireEvent.click(createButton);
-    });
-
-    await waitFor(() => {
       const todosData = screen.getAllByTestId("todos-data");
       expect(todosData).toHaveLength(5);
     });
@@ -66,7 +64,18 @@ describe("App", () => {
     await waitFor(() => {
       const modalTitle = screen.getByTestId("modal-title");
       expect(modalTitle).toBeInTheDocument();
-      screen.debug();
+    });
+  });
+
+  it("モーダルのタイトルがあること", async () => {
+    render(<App />);
+
+    const button = screen.getByTestId("modal-button");
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      const modalTitle = screen.getByTestId("modal-title");
+      expect(modalTitle).toBeInTheDocument();
     });
   });
 });
