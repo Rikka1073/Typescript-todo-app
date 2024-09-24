@@ -1,12 +1,15 @@
 import App from "../App";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Todo } from "../domain/todo";
-import { s } from "vite/dist/node/types.d-aGj9QkWt";
 
 const mockGetAllTodos = jest.fn().mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4)]);
+const mockDeleteTodo = jest.fn().mockResolvedValueOnce(true);
 
 jest.mock("../utils/supabaseFunction", () => {
-  return { getAllTodos: () => mockGetAllTodos() };
+  return {
+    getAllTodos: () => mockGetAllTodos(),
+    deleteTodo: () => mockDeleteTodo(),
+  };
 });
 
 describe("App", () => {
@@ -77,7 +80,23 @@ describe("App", () => {
     await waitFor(() => {
       const errorText = screen.getByTestId("errors-text");
       expect(errorText).toBeInTheDocument();
-      screen.debug();
+    });
+  });
+
+  it("削除ができること", async () => {
+    mockGetAllTodos.mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4), new Todo("5", "test5", 5)]);
+    render(<App />);
+
+    await waitFor(() => {
+      const deleteButton = screen.getByTestId("delete-button-5");
+      fireEvent.click(deleteButton);
+    });
+
+    screen.debug();
+
+    await waitFor(() => {
+      const todosData = screen.queryAllByTestId("todos-data");
+      expect(todosData).toHaveLength(5);
     });
   });
 });
