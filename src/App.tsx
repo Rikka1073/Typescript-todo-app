@@ -1,5 +1,5 @@
-import { Box, Button, Center, ChakraProvider, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { Box, Button, Center, ChakraProvider, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure, Wrap, WrapItem } from "@chakra-ui/react";
+import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 
 import React, { useEffect, useState } from "react";
@@ -36,7 +36,6 @@ const App = () => {
   };
 
   const modalClose = () => {
-    console.log("モーダルが閉じられました");
     setStudyTime(0);
     setStudyText("");
     setValue("study", "");
@@ -44,16 +43,14 @@ const App = () => {
   };
 
   const onClickReset = () => {
-    console.log("リセットしました");
     setStudyTime(0);
     setStudyText("");
   };
 
   const onClickAddTodo = () => {
     if (studyText === "" || studyTime <= 0) {
-      console.log("入力してください");
+      return;
     } else {
-      console.log("クリックしました");
       const newRecord: Todo = { id: "", title: studyText, time: studyTime };
       const newRecords = [...records, newRecord];
       setRecords(newRecords);
@@ -66,8 +63,6 @@ const App = () => {
   };
 
   const onClickDeleteTodo = async (id: string) => {
-    console.log("削除しました");
-    console.log("削除するID:", id);
     await deleteTodo(id);
     const record = await getAllTodos();
     setRecords(record as Todo[]);
@@ -101,29 +96,37 @@ const App = () => {
             </Center>
             {records.map((record) => {
               return (
-                <Box key={record.id} bg="white" pt={5} pb={5} pr={3} pl={3} mb={5} borderRadius="20px" display="flex" justifyContent="space-between" mt={5} data-testid="todos-data">
-                  <Box display="flex">
-                    <Text mr={5} display="flex" alignItems="center">
-                      {record.title}
-                    </Text>
-                    <Text display="flex" alignItems="center">
-                      {record.time}時間
-                    </Text>
-                  </Box>
-                  <Button
-                    onClick={() => {
-                      onClickDeleteTodo(record.id);
-                    }}
-                    bg="gray.50"
-                    boxShadow="md"
-                    p="6"
-                    rounded="md"
-                    borderRadius="999px"
-                    data-testid={`delete-button-${record.id}`}
-                  >
-                    <Text mr={3}>Delete</Text>
-                    <DeleteIcon />
-                  </Button>
+                <Box key={record.id} bg="white" display="flex" justifyContent="space-between" pt={5} pb={5} pr={3} pl={3} mb={5} borderRadius="20px" mt={5} data-testid="todos-data">
+                  <Wrap display="flex" alignItems="center">
+                    <WrapItem>
+                      <Box display="flex">
+                        <Text mr={5}>{record.title}</Text>
+                        <Text>{record.time}時間</Text>
+                      </Box>
+                    </WrapItem>
+                  </Wrap>
+                  <Wrap>
+                    <WrapItem>
+                      <Button
+                        onClick={() => {
+                          onClickDeleteTodo(record.id);
+                        }}
+                        bg="gray.50"
+                        boxShadow="md"
+                        p="4"
+                        rounded="md"
+                        borderRadius="999px"
+                        data-testid={`delete-button-${record.id}`}
+                      >
+                        <DeleteIcon />
+                      </Button>
+                    </WrapItem>
+                    <WrapItem>
+                      <Button bg="gray.50" boxShadow="md" p="4" rounded="md" borderRadius="999px" data-testid={`delete-button-${record.id}`}>
+                        <EditIcon />
+                      </Button>
+                    </WrapItem>
+                  </Wrap>
                 </Box>
               );
             })}
