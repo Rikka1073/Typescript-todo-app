@@ -12,7 +12,9 @@ const App = () => {
   const [records, setRecords] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const editModal = useDisclosure();
+  const addModal = useDisclosure();
+
   const {
     register,
     handleSubmit,
@@ -58,7 +60,7 @@ const App = () => {
       createTodo(studyText, studyTime);
       setStudyText("");
       setStudyTime(0);
-      onClose();
+      addModal.onClose();
     }
   };
 
@@ -122,7 +124,7 @@ const App = () => {
                       </Button>
                     </WrapItem>
                     <WrapItem>
-                      <Button bg="gray.50" boxShadow="md" p="4" rounded="md" borderRadius="999px" data-testid={`delete-button-${record.id}`}>
+                      <Button onClick={editModal.onOpen} bg="gray.50" boxShadow="md" p="4" rounded="md" borderRadius="999px">
                         <EditIcon />
                       </Button>
                     </WrapItem>
@@ -132,14 +134,14 @@ const App = () => {
             })}
           </Box>
           <Box textAlign="right" position="sticky" right={0} bottom="20%">
-            <Button onClick={onOpen} bg="blue.500" borderRadius="50%" size="lg" display="inline-block" data-testid="modal-button">
+            <Button onClick={addModal.onOpen} bg="blue.500" borderRadius="50%" size="lg" display="inline-block" data-testid="modal-button">
               <AddIcon color="white" />
             </Button>
           </Box>
           <Modal
-            isOpen={isOpen}
+            isOpen={addModal.isOpen}
             onClose={() => {
-              onClose();
+              addModal.onClose();
               modalClose();
             }}
           >
@@ -147,6 +149,55 @@ const App = () => {
             <ModalContent mr={5} ml={5}>
               <ModalHeader>
                 <Center data-testid="modal-title">Create New Task</Center>
+              </ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <Box>
+                  <Box mt={10}>
+                    <FormControl onSubmit={handleSubmit(onSubmit)}>
+                      <Box display="flex">
+                        <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
+                          学習内容
+                        </FormLabel>
+                        <Input type="text" {...register("study", { required: "内容の入力は必須です" })} placeholder="study" w="60%" ml={5} onChange={onChangeText} value={studyText} />
+                      </Box>
+                      <Text color="red.500" fontWeight="bold" mt={2} data-testid="errors-text">
+                        {errors.study?.message as string}
+                      </Text>
+                      <Box display="flex" mt={10}>
+                        <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
+                          学習時間
+                        </FormLabel>
+                        <Input type="text" {...register("time", { required: "時間の入力は必須です" })} w="60%" ml={5} onChange={onChangeTime} value={studyTime} />
+                        <Text color="red.500" fontWeight="bold">
+                          {errors.time?.message as string}
+                        </Text>
+                      </Box>
+                    </FormControl>
+                  </Box>
+                </Box>
+              </ModalBody>
+              <ModalFooter>
+                <Button type="submit" bg="pink.300" onClick={onClickReset} mr={5} borderRadius="999px">
+                  <Text color="white">Reset</Text>
+                </Button>
+                <Button type="submit" bg="blue.300" onClick={onClickAddTodo} borderRadius="999px" data-testid="create-button">
+                  <Text color="white">New Task</Text>
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+          <Modal
+            isOpen={editModal.isOpen}
+            onClose={() => {
+              editModal.onClose();
+              modalClose();
+            }}
+          >
+            <ModalOverlay />
+            <ModalContent mr={5} ml={5}>
+              <ModalHeader>
+                <Center data-testid="modal-title">Edit Task</Center>
               </ModalHeader>
               <ModalCloseButton />
               <ModalBody>
