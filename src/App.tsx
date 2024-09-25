@@ -187,55 +187,54 @@ const App = () => {
               </ModalFooter>
             </ModalContent>
           </Modal>
-          <Modal
-            isOpen={editModal.isOpen}
-            onClose={() => {
-              editModal.onClose();
-              modalClose();
-            }}
-          >
-            <ModalOverlay />
-            <ModalContent mr={5} ml={5}>
-              <ModalHeader>
-                <Center data-testid="modal-title">Edit Task</Center>
-              </ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <Box>
-                  <Box mt={10}>
-                    <FormControl onSubmit={handleSubmit(onSubmit)}>
-                      <Box display="flex">
-                        <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
-                          学習内容
-                        </FormLabel>
-                        <Input type="text" {...register("study", { required: "内容の入力は必須です" })} placeholder="study" w="60%" ml={5} onChange={onChangeText} value={studyText} />
+          {records.map((record) => {
+            return (
+              <Modal
+                isOpen={editModal.isOpen}
+                onClose={() => {
+                  editModal.onClose();
+                  modalClose();
+                }}
+                key={record.id}
+              >
+                <ModalOverlay />
+                <ModalContent mr={5} ml={5}>
+                  <ModalHeader>
+                    <Center data-testid="modal-title">Edit Task</Center>
+                  </ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody>
+                    <Box>
+                      <Box mt={10}>
+                        <FormControl onSubmit={handleSubmit(onSubmit)}>
+                          <Box display="flex">
+                            <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
+                              学習内容
+                            </FormLabel>
+                            <Input type="text" w="60%" ml={5} onChange={onChangeText} value={record.title} />
+                          </Box>
+                          <Box display="flex" mt={10}>
+                            <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
+                              学習時間
+                            </FormLabel>
+                            <Input type="text" w="60%" ml={5} onChange={onChangeTime} value={record.time} />
+                          </Box>
+                        </FormControl>
                       </Box>
-                      <Text color="red.500" fontWeight="bold" mt={2} data-testid="errors-text">
-                        {errors.study?.message as string}
-                      </Text>
-                      <Box display="flex" mt={10}>
-                        <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
-                          学習時間
-                        </FormLabel>
-                        <Input type="text" {...register("time", { required: "時間の入力は必須です" })} w="60%" ml={5} onChange={onChangeTime} value={studyTime} />
-                        <Text color="red.500" fontWeight="bold">
-                          {errors.time?.message as string}
-                        </Text>
-                      </Box>
-                    </FormControl>
-                  </Box>
-                </Box>
-              </ModalBody>
-              <ModalFooter>
-                <Button type="submit" bg="pink.300" onClick={onClickReset} mr={5} borderRadius="999px">
-                  <Text color="white">Reset</Text>
-                </Button>
-                <Button type="submit" bg="blue.300" onClick={onClickAddTodo} borderRadius="999px" data-testid="create-button">
-                  <Text color="white">New Task</Text>
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
+                    </Box>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button type="submit" bg="pink.300" onClick={onClickReset} mr={5} borderRadius="999px">
+                      <Text color="white">Cancel</Text>
+                    </Button>
+                    <Button type="submit" bg="blue.300" onClick={onClickAddTodo} borderRadius="999px" data-testid="create-button">
+                      <Text color="white">Save</Text>
+                    </Button>
+                  </ModalFooter>
+                </ModalContent>
+              </Modal>
+            );
+          })}
         </Box>
       </ChakraProvider>
     </>
