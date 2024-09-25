@@ -70,6 +70,10 @@ const App = () => {
     setRecords(record as Todo[]);
   };
 
+  const onClickCancel = () => {
+    editModal.onClose();
+  };
+
   useEffect(() => {
     const getTodos = async () => {
       const todosData = await getAllTodos();
@@ -224,7 +228,7 @@ const App = () => {
                     </Box>
                   </ModalBody>
                   <ModalFooter>
-                    <Button type="submit" bg="pink.300" onClick={onClickReset} mr={5} borderRadius="999px">
+                    <Button type="submit" bg="pink.300" onClick={onClickCancel} mr={5} borderRadius="999px">
                       <Text color="white">Cancel</Text>
                     </Button>
                     <Button type="submit" bg="blue.300" onClick={onClickAddTodo} borderRadius="999px" data-testid="create-button">
