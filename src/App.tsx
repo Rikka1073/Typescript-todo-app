@@ -11,6 +11,7 @@ const App = () => {
   const [studyTime, setStudyTime] = useState(0);
   const [records, setRecords] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [openModalId, setModalId] = useState<string>();
 
   const editModal = useDisclosure();
   const addModal = useDisclosure();
@@ -74,6 +75,10 @@ const App = () => {
     editModal.onClose();
   };
 
+  const onClickSaveTodo = () => {
+    editModal.onClose();
+  };
+
   useEffect(() => {
     const getTodos = async () => {
       const todosData = await getAllTodos();
@@ -128,7 +133,17 @@ const App = () => {
                       </Button>
                     </WrapItem>
                     <WrapItem>
-                      <Button onClick={editModal.onOpen} bg="gray.50" boxShadow="md" p="4" rounded="md" borderRadius="999px">
+                      <Button
+                        onClick={() => {
+                          setModalId(record.id);
+                          editModal.onOpen();
+                        }}
+                        bg="gray.50"
+                        boxShadow="md"
+                        p="4"
+                        rounded="md"
+                        borderRadius="999px"
+                      >
                         <EditIcon />
                       </Button>
                     </WrapItem>
@@ -194,7 +209,7 @@ const App = () => {
           {records.map((record) => {
             return (
               <Modal
-                isOpen={editModal.isOpen}
+                isOpen={openModalId === record.id}
                 onClose={() => {
                   editModal.onClose();
                   modalClose();
@@ -221,7 +236,7 @@ const App = () => {
                             <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
                               学習時間
                             </FormLabel>
-                            <Input type="text" w="60%" ml={5} onChange={onChangeTime} value={record.time} />
+                            <Input type="text" w="60%" ml={5} onChange={onChangeTime} value={studyTime} />
                           </Box>
                         </FormControl>
                       </Box>
@@ -231,7 +246,7 @@ const App = () => {
                     <Button type="submit" bg="pink.300" onClick={onClickCancel} mr={5} borderRadius="999px">
                       <Text color="white">Cancel</Text>
                     </Button>
-                    <Button type="submit" bg="blue.300" onClick={onClickAddTodo} borderRadius="999px" data-testid="create-button">
+                    <Button type="submit" bg="blue.300" onClick={onClickSaveTodo} borderRadius="999px" data-testid="create-button">
                       <Text color="white">Save</Text>
                     </Button>
                   </ModalFooter>
