@@ -12,6 +12,8 @@ const App = () => {
   const [records, setRecords] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
   const [openModalId, setModalId] = useState<string>();
+  const [newstudyText, setNewStudyText] = useState("");
+  const [newstudyTime, setNewStudyTime] = useState(0);
 
   const editModal = useDisclosure();
   const addModal = useDisclosure();
@@ -75,8 +77,9 @@ const App = () => {
     editModal.onClose();
   };
 
-  const onClickSaveTodo = () => {
+  const onClickSaveTodo = async () => {
     editModal.onClose();
+    const record = await getAllTodos();
   };
 
   useEffect(() => {
@@ -91,6 +94,19 @@ const App = () => {
     };
     getTodos();
   }, []);
+
+  useEffect(() => {
+    if (openModalId) {
+      const todo = records.find((record) => record.id === openModalId);
+      if (todo) {
+        setNewStudyText(todo.title);
+        setNewStudyTime(todo.time);
+      } else {
+        setNewStudyText("");
+        setNewStudyTime(0);
+      }
+    }
+  }, [openModalId, records]);
 
   return (
     <>
@@ -209,7 +225,7 @@ const App = () => {
           {records.map((record) => {
             return (
               <Modal
-                isOpen={openModalId === record.id}
+                isOpen={openModalId === record.id && editModal.isOpen}
                 onClose={() => {
                   editModal.onClose();
                   modalClose();
@@ -230,13 +246,13 @@ const App = () => {
                             <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
                               学習内容
                             </FormLabel>
-                            <Input type="text" w="60%" ml={5} onChange={onChangeText} value={record.title} />
+                            <Input type="text" w="60%" ml={5} onChange={onChangeText} value={newstudyText} />
                           </Box>
                           <Box display="flex" mt={10}>
                             <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
                               学習時間
                             </FormLabel>
-                            <Input type="text" w="60%" ml={5} onChange={onChangeTime} value={studyTime} />
+                            <Input type="text" w="60%" ml={5} onChange={onChangeTime} value={newstudyTime} />
                           </Box>
                         </FormControl>
                       </Box>
