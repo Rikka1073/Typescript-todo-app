@@ -40,6 +40,16 @@ const App = () => {
     setStudyTime(Number(event.target.value));
   };
 
+  const onChangeSaveText = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setNewStudyText(value);
+    setValue("study", value);
+  };
+
+  const onChangeSaveTime = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewStudyTime(Number(event.target.value));
+  };
+
   const modalClose = () => {
     setStudyTime(0);
     setStudyText("");
@@ -79,7 +89,6 @@ const App = () => {
 
   const onClickSaveTodo = async () => {
     editModal.onClose();
-    const record = await getAllTodos();
   };
 
   useEffect(() => {
@@ -246,13 +255,13 @@ const App = () => {
                             <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
                               学習内容
                             </FormLabel>
-                            <Input type="text" w="60%" ml={5} onChange={onChangeText} value={newstudyText} />
+                            <Input type="text" w="60%" ml={5} onChange={onChangeSaveText} value={newstudyText} />
                           </Box>
                           <Box display="flex" mt={10}>
                             <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
                               学習時間
                             </FormLabel>
-                            <Input type="text" w="60%" ml={5} onChange={onChangeTime} value={newstudyTime} />
+                            <Input type="text" w="60%" ml={5} onChange={onChangeSaveTime} value={newstudyTime} />
                           </Box>
                         </FormControl>
                       </Box>
