@@ -118,7 +118,7 @@ const App = () => {
         setNewStudyTime(todo.time);
       }
     }
-  }, []);
+  }, [openModalId]);
 
   return (
     <>
