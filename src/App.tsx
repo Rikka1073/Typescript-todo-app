@@ -3,7 +3,7 @@ import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 
 import React, { useEffect, useState } from "react";
-import { createTodo, deleteTodo, getAllTodos } from "./utils/supabaseFunction";
+import { createTodo, deleteTodo, getAllTodos, updateTodo } from "./utils/supabaseFunction";
 import { Todo } from "./domain/todo";
 
 const App = () => {
@@ -93,6 +93,10 @@ const App = () => {
     });
     setRecords(saveRecord);
     editModal.onClose();
+    await getAllTodos();
+    if (openModalId) {
+      updateTodo(newstudyText, newstudyTime, openModalId);
+    }
   };
 
   useEffect(() => {
@@ -121,7 +125,7 @@ const App = () => {
   return (
     <>
       <ChakraProvider>
-        <Box w={{ base: "100%", md: "60%" }} m="auto" bg="gray.50" p={10} position="relative" overflow="visible">
+        <Box w={{ base: "100%", md: "60%" }} m="auto" bg="gray.50" p={10} position="relative" overflow="visible" h="100vh">
           <Box>
             <Center>
               <Heading as="h1" size="xl" data-testid="title">
