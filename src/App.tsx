@@ -92,8 +92,6 @@ const App = () => {
       return record.id === openModalId ? { ...record, title: newstudyText, time: newstudyTime } : record;
     });
     setRecords(saveRecord);
-    setNewStudyTime(0);
-    setNewStudyText("");
     editModal.onClose();
   };
 
