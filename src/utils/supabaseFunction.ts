@@ -23,6 +23,6 @@ export const deleteTodo = async (id: string) => {
   await supabase.from("study-record").delete().eq("id", id);
 };
 
-export const updateTodo = async (newStudyText: string, newStudyTime: number, id: string) => {
-  await supabase.from("study-record").update({ title: newStudyText, time: newStudyTime }).eq("id", id);
+export const updateTodo = async (newStudyText: string, newStudyTime: number, openModalId: string) => {
+  await supabase.from("study-record").update({ title: newStudyText, time: newStudyTime }).eq("id", openModalId);
 };
