@@ -88,6 +88,12 @@ const App = () => {
   };
 
   const onClickSaveTodo = async () => {
+    const saveRecord = records.map((record) => {
+      return record.id === openModalId ? { ...record, title: newstudyText, time: newstudyTime } : record;
+    });
+    setRecords(saveRecord);
+    setNewStudyTime(0);
+    setNewStudyText("");
     editModal.onClose();
   };
 
@@ -110,12 +116,9 @@ const App = () => {
       if (todo) {
         setNewStudyText(todo.title);
         setNewStudyTime(todo.time);
-      } else {
-        setNewStudyText("");
-        setNewStudyTime(0);
       }
     }
-  }, [openModalId, records]);
+  }, []);
 
   return (
     <>
