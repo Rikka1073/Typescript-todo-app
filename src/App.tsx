@@ -21,6 +21,7 @@ const App = () => {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({ mode: "onBlur" });
 
@@ -71,7 +72,9 @@ const App = () => {
       createTodo(studyText, studyTime);
       setStudyText("");
       setStudyTime(0);
+      console.log(studyText, studyTime);
       onClose();
+      reset();
     }
   };
 
