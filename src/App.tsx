@@ -15,7 +15,8 @@ const App = () => {
   const [newstudyText, setNewStudyText] = useState("");
   const [newstudyTime, setNewStudyTime] = useState(0);
 
-  const { onOpen, onClose, isOpen } = useDisclosure();
+  const editModal = useDisclosure();
+  const addModal = useDisclosure();
 
   const {
     register,
@@ -40,15 +41,15 @@ const App = () => {
     setStudyTime(Number(event.target.value));
   };
 
-  // const onChangeSaveText = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = event.target.value;
-  //   setNewStudyText(value);
-  //   setValue("study", value);
-  // };
+  const onChangeSaveText = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setNewStudyText(value);
+    setValue("study", value);
+  };
 
-  // const onChangeSaveTime = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setNewStudyTime(Number(event.target.value));
-  // };
+  const onChangeSaveTime = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewStudyTime(Number(event.target.value));
+  };
 
   const modalClose = () => {
     setStudyTime(0);
@@ -72,8 +73,7 @@ const App = () => {
       createTodo(studyText, studyTime);
       setStudyText("");
       setStudyTime(0);
-      console.log(studyText, studyTime);
-      onClose();
+      addModal.onClose();
       reset();
     }
   };
@@ -84,21 +84,21 @@ const App = () => {
     setRecords(record as Todo[]);
   };
 
-  // const onClickCancel = () => {
-  //   onClose();
-  // };
+  const onClickCancel = () => {
+    editModal.onClose();
+  };
 
-  // const onClickSaveTodo = async () => {
-  //   const saveRecord = records.map((record) => {
-  //     return record.id === openRecordId ? { ...record, title: newstudyText, time: newstudyTime } : record;
-  //   });
-  //   setRecords(saveRecord);
-  //   editModal.onClose();
-  //   await getAllTodos();
-  //   if (openRecordId) {
-  //     updateTodo(newstudyText, newstudyTime, openRecordId);
-  //   }
-  // };
+  const onClickSaveTodo = async () => {
+    const saveRecord = records.map((record) => {
+      return record.id === openRecordId ? { ...record, title: newstudyText, time: newstudyTime } : record;
+    });
+    setRecords(saveRecord);
+    editModal.onClose();
+    await getAllTodos();
+    if (openRecordId) {
+      updateTodo(newstudyText, newstudyTime, openRecordId);
+    }
+  };
 
   useEffect(() => {
     const getTodos = async () => {
@@ -167,7 +167,7 @@ const App = () => {
                       <Button
                         onClick={() => {
                           setRecordId(record.id);
-                          onOpen();
+                          editModal.onOpen();
                         }}
                         bg="gray.50"
                         boxShadow="md"
@@ -184,14 +184,14 @@ const App = () => {
             })}
           </Box>
           <Box textAlign="right" position="sticky" right={0} bottom="20%">
-            <Button onClick={onOpen} bg="blue.500" borderRadius="50%" size="lg" display="inline-block" data-testid="modal-button">
+            <Button onClick={addModal.onOpen} bg="blue.500" borderRadius="50%" size="lg" display="inline-block" data-testid="modal-button">
               <AddIcon color="white" />
             </Button>
           </Box>
           <Modal
-            isOpen={isOpen}
+            isOpen={addModal.isOpen}
             onClose={() => {
-              onClose();
+              addModal.onClose();
               modalClose();
             }}
           >
@@ -237,7 +237,7 @@ const App = () => {
               </ModalFooter>
             </ModalContent>
           </Modal>
-          {/* {records.map((record) => {
+          {records.map((record) => {
             return (
               <Modal
                 isOpen={editModal.isOpen}
@@ -284,7 +284,7 @@ const App = () => {
                 </ModalContent>
               </Modal>
             );
-          })} */}
+          })}
         </Box>
       </ChakraProvider>
     </>
