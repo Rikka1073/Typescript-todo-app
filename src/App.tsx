@@ -15,8 +15,7 @@ const App = () => {
   const [newstudyText, setNewStudyText] = useState("");
   const [newstudyTime, setNewStudyTime] = useState(0);
 
-  const editModal = useDisclosure();
-  const addModal = useDisclosure();
+  const { onOpen, onClose, isOpen } = useDisclosure();
 
   const {
     register,
@@ -40,15 +39,15 @@ const App = () => {
     setStudyTime(Number(event.target.value));
   };
 
-  const onChangeSaveText = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setNewStudyText(value);
-    setValue("study", value);
-  };
+  // const onChangeSaveText = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = event.target.value;
+  //   setNewStudyText(value);
+  //   setValue("study", value);
+  // };
 
-  const onChangeSaveTime = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewStudyTime(Number(event.target.value));
-  };
+  // const onChangeSaveTime = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setNewStudyTime(Number(event.target.value));
+  // };
 
   const modalClose = () => {
     setStudyTime(0);
@@ -69,11 +68,10 @@ const App = () => {
       const newRecord: Todo = { id: "", title: studyText, time: studyTime };
       const newRecords = [...records, newRecord];
       setRecords(newRecords);
-      console.log(newRecords);
       createTodo(studyText, studyTime);
       setStudyText("");
       setStudyTime(0);
-      addModal.onClose();
+      onClose();
     }
   };
 
@@ -83,21 +81,21 @@ const App = () => {
     setRecords(record as Todo[]);
   };
 
-  const onClickCancel = () => {
-    editModal.onClose();
-  };
+  // const onClickCancel = () => {
+  //   onClose();
+  // };
 
-  const onClickSaveTodo = async () => {
-    const saveRecord = records.map((record) => {
-      return record.id === openRecordId ? { ...record, title: newstudyText, time: newstudyTime } : record;
-    });
-    setRecords(saveRecord);
-    editModal.onClose();
-    await getAllTodos();
-    if (openRecordId) {
-      updateTodo(newstudyText, newstudyTime, openRecordId);
-    }
-  };
+  // const onClickSaveTodo = async () => {
+  //   const saveRecord = records.map((record) => {
+  //     return record.id === openRecordId ? { ...record, title: newstudyText, time: newstudyTime } : record;
+  //   });
+  //   setRecords(saveRecord);
+  //   editModal.onClose();
+  //   await getAllTodos();
+  //   if (openRecordId) {
+  //     updateTodo(newstudyText, newstudyTime, openRecordId);
+  //   }
+  // };
 
   useEffect(() => {
     const getTodos = async () => {
@@ -112,15 +110,15 @@ const App = () => {
     getTodos();
   }, []);
 
-  useEffect(() => {
-    if (openRecordId) {
-      const todo = records.find((record) => record.id === openRecordId);
-      if (todo) {
-        setNewStudyText(todo.title);
-        setNewStudyTime(todo.time);
-      }
-    }
-  }, [openRecordId, records]);
+  // useEffect(() => {
+  //   if (openRecordId) {
+  //     const todo = records.find((record) => record.id === openRecordId);
+  //     if (todo) {
+  //       setNewStudyText(todo.title);
+  //       setNewStudyTime(todo.time);
+  //     }
+  //   }
+  // }, [openRecordId, records]);
 
   return (
     <>
@@ -166,7 +164,7 @@ const App = () => {
                       <Button
                         onClick={() => {
                           setRecordId(record.id);
-                          editModal.onOpen();
+                          onOpen();
                         }}
                         bg="gray.50"
                         boxShadow="md"
@@ -183,14 +181,14 @@ const App = () => {
             })}
           </Box>
           <Box textAlign="right" position="sticky" right={0} bottom="20%">
-            <Button onClick={addModal.onOpen} bg="blue.500" borderRadius="50%" size="lg" display="inline-block" data-testid="modal-button">
+            <Button onClick={onOpen} bg="blue.500" borderRadius="50%" size="lg" display="inline-block" data-testid="modal-button">
               <AddIcon color="white" />
             </Button>
           </Box>
           <Modal
-            isOpen={addModal.isOpen}
+            isOpen={isOpen}
             onClose={() => {
-              addModal.onClose();
+              onClose();
               modalClose();
             }}
           >
@@ -236,10 +234,10 @@ const App = () => {
               </ModalFooter>
             </ModalContent>
           </Modal>
-          {records.map((record) => {
+          {/* {records.map((record) => {
             return (
               <Modal
-                isOpen={openRecordId === record.id && editModal.isOpen}
+                isOpen={editModal.isOpen}
                 onClose={() => {
                   editModal.onClose();
                   modalClose();
@@ -283,7 +281,7 @@ const App = () => {
                 </ModalContent>
               </Modal>
             );
-          })}
+          })} */}
         </Box>
       </ChakraProvider>
     </>
