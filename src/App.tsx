@@ -11,7 +11,7 @@ const App = () => {
   const [studyTime, setStudyTime] = useState(0);
   const [records, setRecords] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [openModalId, setModalId] = useState<string>();
+  const [openRecordId, setRecordId] = useState<string>();
   const [newstudyText, setNewStudyText] = useState("");
   const [newstudyTime, setNewStudyTime] = useState(0);
 
@@ -89,13 +89,13 @@ const App = () => {
 
   const onClickSaveTodo = async () => {
     const saveRecord = records.map((record) => {
-      return record.id === openModalId ? { ...record, title: newstudyText, time: newstudyTime } : record;
+      return record.id === openRecordId ? { ...record, title: newstudyText, time: newstudyTime } : record;
     });
     setRecords(saveRecord);
     editModal.onClose();
     await getAllTodos();
-    if (openModalId) {
-      updateTodo(newstudyText, newstudyTime, openModalId);
+    if (openRecordId) {
+      updateTodo(newstudyText, newstudyTime, openRecordId);
     }
   };
 
@@ -113,14 +113,14 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (openModalId) {
-      const todo = records.find((record) => record.id === openModalId);
+    if (openRecordId) {
+      const todo = records.find((record) => record.id === openRecordId);
       if (todo) {
         setNewStudyText(todo.title);
         setNewStudyTime(todo.time);
       }
     }
-  }, [openModalId]);
+  }, [openRecordId, records]);
 
   return (
     <>
@@ -165,7 +165,7 @@ const App = () => {
                     <WrapItem>
                       <Button
                         onClick={() => {
-                          setModalId(record.id);
+                          setRecordId(record.id);
                           editModal.onOpen();
                         }}
                         bg="gray.50"
@@ -239,7 +239,7 @@ const App = () => {
           {records.map((record) => {
             return (
               <Modal
-                isOpen={openModalId === record.id && editModal.isOpen}
+                isOpen={openRecordId === record.id && editModal.isOpen}
                 onClose={() => {
                   editModal.onClose();
                   modalClose();
