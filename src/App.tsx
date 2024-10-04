@@ -73,6 +73,9 @@ const App = () => {
       createTodo(studyText, studyTime);
       setStudyText("");
       setStudyTime(0);
+      setNewStudyText("");
+      setNewStudyTime(0);
+      setRecordId(undefined);
       addModal.onClose();
       reset();
     }
@@ -98,6 +101,7 @@ const App = () => {
     if (openRecordId) {
       updateTodo(newStudyText, newStudyTime, openRecordId);
     }
+    reset();
   };
 
   useEffect(() => {
