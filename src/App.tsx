@@ -189,6 +189,7 @@ const App = () => {
                         p="4"
                         rounded="md"
                         borderRadius="999px"
+                        data-testid={`edit-button-${record.id}`}
                       >
                         <EditIcon />
                       </Button>
@@ -265,7 +266,7 @@ const App = () => {
                 <ModalOverlay />
                 <ModalContent mr={5} ml={5}>
                   <ModalHeader>
-                    <Center data-testid="modal-title">Edit Task</Center>
+                    <Center data-testid="edit-modal-title">Edit Task</Center>
                   </ModalHeader>
                   <ModalCloseButton />
                   <ModalBody>

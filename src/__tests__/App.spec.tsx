@@ -1,5 +1,5 @@
 import App from "../App";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, getAllByText, getByText, render, screen, waitFor } from "@testing-library/react";
 import { Todo } from "../domain/todo";
 
 const mockGetAllTodos = jest.fn().mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4)]);
@@ -92,11 +92,39 @@ describe("App", () => {
       fireEvent.click(deleteButton);
     });
 
-    screen.debug();
-
     await waitFor(() => {
       const todosData = screen.queryAllByTestId("todos-data");
       expect(todosData).toHaveLength(5);
+    });
+  });
+
+  it("モーダルの編集タイトルがあること", async () => {
+    render(<App />);
+
+    await waitFor(() => {
+      const editButton = screen.getByTestId("edit-button-1");
+      fireEvent.click(editButton);
+    });
+
+    await waitFor(() => {
+      const editModalTitle = screen.getByTestId("edit-modal-title");
+      expect(editModalTitle).toBeInTheDocument();
+    });
+  });
+
+  it("編集が反映されていること", async () => {
+    mockGetAllTodos.mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4), new Todo("5", "test6", 10)]);
+    render(<App />);
+
+    await waitFor(() => {
+      const editButton = screen.getByTestId("edit-button-5");
+      fireEvent.click(editButton);
+    });
+
+    await waitFor(() => {
+      const saveButton = screen.getByTestId("edit-modal-title");
+      fireEvent.click(saveButton);
+      screen.getByText("test6");
     });
   });
 });
