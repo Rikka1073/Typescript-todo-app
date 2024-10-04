@@ -12,8 +12,8 @@ const App = () => {
   const [records, setRecords] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
   const [openRecordId, setRecordId] = useState<string>();
-  const [newstudyText, setNewStudyText] = useState("");
-  const [newstudyTime, setNewStudyTime] = useState(0);
+  const [newStudyText, setNewStudyText] = useState("");
+  const [newStudyTime, setNewStudyTime] = useState(0);
 
   const editModal = useDisclosure();
   const addModal = useDisclosure();
@@ -90,13 +90,13 @@ const App = () => {
 
   const onClickSaveTodo = async () => {
     const saveRecord = records.map((record) => {
-      return record.id === openRecordId ? { ...record, title: newstudyText, time: newstudyTime } : record;
+      return record.id === openRecordId ? { ...record, title: newStudyText, time: newStudyTime } : record;
     });
     setRecords(saveRecord);
     editModal.onClose();
     await getAllTodos();
     if (openRecordId) {
-      updateTodo(newstudyText, newstudyTime, openRecordId);
+      updateTodo(newStudyText, newStudyTime, openRecordId);
     }
   };
 
@@ -113,15 +113,26 @@ const App = () => {
     getTodos();
   }, []);
 
-  // useEffect(() => {
-  //   if (openRecordId) {
-  //     const todo = records.find((record) => record.id === openRecordId);
-  //     if (todo) {
-  //       setNewStudyText(todo.title);
-  //       setNewStudyTime(todo.time);
-  //     }
-  //   }
-  // }, [openRecordId, records]);
+  useEffect(() => {
+    if (openRecordId && records) {
+      const todo = records.find((record) => record.id === openRecordId);
+      if (todo) {
+        setNewStudyText(todo.title);
+        setNewStudyTime(todo.time);
+      } else {
+        setNewStudyText("");
+        setNewStudyTime(0);
+      }
+    }
+  }, [openRecordId, records]);
+
+  const editModalOpen = () => {
+    editModal.onOpen();
+    records.map((record) => {
+      setNewStudyText(record.title);
+      setNewStudyTime(record.time);
+    });
+  };
 
   return (
     <>
@@ -167,7 +178,7 @@ const App = () => {
                       <Button
                         onClick={() => {
                           setRecordId(record.id);
-                          editModal.onOpen();
+                          editModalOpen();
                         }}
                         bg="gray.50"
                         boxShadow="md"
@@ -240,7 +251,7 @@ const App = () => {
           {records.map((record) => {
             return (
               <Modal
-                isOpen={editModal.isOpen}
+                isOpen={openRecordId === record.id && editModal.isOpen}
                 onClose={() => {
                   editModal.onClose();
                   modalClose();
@@ -261,13 +272,13 @@ const App = () => {
                             <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
                               学習内容
                             </FormLabel>
-                            <Input type="text" w="60%" ml={5} onChange={onChangeSaveText} value={newstudyText} />
+                            <Input type="text" w="60%" ml={5} onChange={onChangeSaveText} value={newStudyText} />
                           </Box>
                           <Box display="flex" mt={10}>
                             <FormLabel fontSize="lg" display="flex" alignItems="center" m={0}>
                               学習時間
                             </FormLabel>
-                            <Input type="text" w="60%" ml={5} onChange={onChangeSaveTime} value={newstudyTime} />
+                            <Input type="text" w="60%" ml={5} onChange={onChangeSaveTime} value={newStudyTime} />
                           </Box>
                         </FormControl>
                       </Box>
