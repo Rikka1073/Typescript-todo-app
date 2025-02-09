@@ -1,8 +1,22 @@
 import App from "../App";
-import { fireEvent, getAllByText, getByText, render, screen, waitFor } from "@testing-library/react";
+import {
+  fireEvent,
+  getAllByText,
+  getByText,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { Todo } from "../domain/todo";
 
-const mockGetAllTodos = jest.fn().mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4)]);
+const mockGetAllTodos = jest
+  .fn()
+  .mockResolvedValue([
+    new Todo("1", "test1", 1),
+    new Todo("2", "test2", 2),
+    new Todo("3", "test3", 3),
+    new Todo("4", "test4", 4),
+  ]);
 const mockDeleteTodo = jest.fn().mockResolvedValueOnce(true);
 
 jest.mock("../utils/supabaseFunction", () => {
@@ -44,7 +58,13 @@ describe("App", () => {
   });
 
   it("登録できること", async () => {
-    mockGetAllTodos.mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4), new Todo("5", "test5", 5)]);
+    mockGetAllTodos.mockResolvedValue([
+      new Todo("1", "test1", 1),
+      new Todo("2", "test2", 2),
+      new Todo("3", "test3", 3),
+      new Todo("4", "test4", 4),
+      new Todo("5", "test5", 5),
+    ]);
     render(<App />);
 
     const modalButton = screen.getByTestId("modal-button");
@@ -71,7 +91,14 @@ describe("App", () => {
   });
 
   it("学習内容がないときに登録するとエラーがでる", async () => {
-    mockGetAllTodos.mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4), new Todo("5", "test5", 5), new Todo("6", "", 0)]);
+    mockGetAllTodos.mockResolvedValue([
+      new Todo("1", "test1", 1),
+      new Todo("2", "test2", 2),
+      new Todo("3", "test3", 3),
+      new Todo("4", "test4", 4),
+      new Todo("5", "test5", 5),
+      new Todo("6", "", 0),
+    ]);
     render(<App />);
 
     const button = screen.getByTestId("modal-button");
@@ -84,7 +111,13 @@ describe("App", () => {
   });
 
   it("削除ができること", async () => {
-    mockGetAllTodos.mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4), new Todo("5", "test5", 5)]);
+    mockGetAllTodos.mockResolvedValue([
+      new Todo("1", "test1", 1),
+      new Todo("2", "test2", 2),
+      new Todo("3", "test3", 3),
+      new Todo("4", "test4", 4),
+      new Todo("5", "test5", 5),
+    ]);
     render(<App />);
 
     await waitFor(() => {
@@ -113,7 +146,13 @@ describe("App", () => {
   });
 
   it("編集が反映されていること", async () => {
-    mockGetAllTodos.mockResolvedValue([new Todo("1", "test1", 1), new Todo("2", "test2", 2), new Todo("3", "test3", 3), new Todo("4", "test4", 4), new Todo("5", "test6", 10)]);
+    mockGetAllTodos.mockResolvedValue([
+      new Todo("1", "test1", 1),
+      new Todo("2", "test2", 2),
+      new Todo("3", "test3", 3),
+      new Todo("4", "test4", 4),
+      new Todo("5", "test6", 10),
+    ]);
     render(<App />);
 
     await waitFor(() => {
